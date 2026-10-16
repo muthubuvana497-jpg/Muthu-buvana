@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Buvana</title>
+<!-- EDIT: everything in [square brackets] is a placeholder. Search for "[" and replace with your own words and links. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --yellow:#FFD93D; --red:#FF4F3D; --blue:#4D8BFF;
+  --ink:#000; --paper:#fff;
+  --b:4px solid var(--ink);
+  --sh:6px 6px 0 var(--ink);
+  --ease:cubic-bezier(.2,.9,.25,1.2);
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--paper);color:var(--ink);font-size:1.05rem;line-height:1.55;overflow-x:hidden}
+h1,h2,h3,.disp{font-family:'Archivo Black',Impact,sans-serif;font-weight:400;line-height:.95;text-transform:uppercase}
+a{color:inherit}
+:focus-visible{outline:4px solid var(--blue);outline-offset:3px}
+section{padding:4.5rem 1.25rem;border-top:var(--b)}
+.wrap{max-width:62rem;margin:0 auto}
+h2{font-size:clamp(2.4rem,9vw,4.5rem);margin-bottom:1.75rem}
+h2 span{background:var(--yellow);padding:0 .25em;border:var(--b);box-shadow:var(--sh);display:inline-block;transform:rotate(-2deg)}
+
+.btn{display:inline-block;font:700 1rem 'DM Sans',sans-serif;text-decoration:none;padding:.85rem 1.4rem;border:var(--b);background:var(--paper);box-shadow:var(--sh);cursor:pointer;transition:transform .15s var(--ease),box-shadow .15s var(--ease)}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:8px 8px 0 var(--ink)}
+.btn:active{transform:translate(6px,6px);box-shadow:0 0 0 var(--ink)}
+.btn.red{background:var(--red)}
+.btn.yellow{background:var(--yellow)}
+
+/* opening stamp */
+#intro{position:fixed;inset:0;z-index:50;background:var(--yellow);display:grid;place-items:center;overflow:hidden}
+#intro.go{animation:wipe .45s .95s cubic-bezier(.7,0,.3,1) forwards}
+#intro.gone{display:none}
+.stamp{font-family:'Archivo Black',sans-serif;font-size:clamp(3rem,17vw,9rem);text-transform:uppercase;color:var(--red);border:10px solid var(--red);padding:.1em .22em;transform:rotate(-7deg) scale(4);opacity:0;mix-blend-mode:multiply}
+#intro.go .stamp{animation:thump .35s .35s var(--ease) forwards}
+#intro.go{animation-name:wipe,shake;animation-duration:.45s,.25s;animation-delay:1.45s,.65s;animation-fill-mode:forwards,none}
+@keyframes thump{0%{opacity:0;transform:rotate(-7deg) scale(4)}60%{opacity:1}100%{opacity:1;transform:rotate(-7deg) scale(1)}}
+@keyframes shake{0%,100%{transform:translate(0)}25%{transform:translate(-8px,6px)}50%{transform:translate(7px,-6px)}75%{transform:translate(-4px,3px)}}
+@keyframes wipe{to{transform:translateY(-101%)}}
+#skip{position:absolute;right:1rem;bottom:1rem;font-size:.9rem;padding:.5rem .9rem}
+
+/* landing */
+.hero{border-top:0;padding-top:2.5rem;min-height:92vh;display:flex;align-items:center;background:var(--paper)}
+.hero .wrap{width:100%}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:2.5rem;gap:1rem}
+.mono{width:4.2rem;height:4.2rem;background:var(--red);border:var(--b);box-shadow:var(--sh);display:grid;place-items:center;font:2rem 'Archivo Black';transform:rotate(-5deg);cursor:pointer;color:var(--ink);padding:0}
+.mono:active{transform:rotate(-5deg) translate(4px,4px);box-shadow:0 0 0 var(--ink)}
+.hero h1{font-size:clamp(4.2rem,24vw,13rem);letter-spacing:-.02em;margin-left:-.04em}
+.tag{display:inline-block;margin:1.5rem 0 .8rem;font-size:clamp(1.2rem,4vw,1.7rem);font-weight:700;max-width:30rem;background:var(--yellow);border:var(--b);padding:.4rem .8rem;box-shadow:var(--sh);transform:rotate(1deg)}
+.now{margin-bottom:2rem;font-weight:500}
+.now b{background:var(--blue);padding:.05rem .4rem;border:3px solid var(--ink)}
+.btns{display:flex;flex-wrap:wrap;gap:1rem 1.25rem}
+
+/* about: asymmetric */
+.about{background:var(--blue)}
+.about .grid{display:grid;gap:2rem}
+.card{background:var(--paper);border:var(--b);box-shadow:var(--sh);padding:1.4rem}
+.about .card p+p{margin-top:1rem}
+.about .side{background:var(--yellow);transform:rotate(2deg);align-self:start;font-weight:700}
+@media(min-width:760px){.about .grid{grid-template-columns:1.6fr 1fr}.about .side{margin-top:3rem}}
+
+/* skills */
+.lv{display:grid;gap:1.5rem}
+.lv h3{font-size:1.6rem;margin-bottom:.8rem}
+.chips{display:flex;flex-wrap:wrap;gap:.7rem}
+.chip{border:var(--b);padding:.3rem .8rem;font-weight:700;background:var(--paper);box-shadow:4px 4px 0 var(--ink)}
+.lv .a .chip{background:var(--yellow)}
+.lv .b .chip{background:var(--paper);border-style:dashed}
+@media(min-width:760px){.lv{grid-template-columns:1fr 1fr}}
+
+/* journey */
+.journey{background:var(--yellow)}
+.steps{display:grid;gap:1.5rem}
+.steps .card:nth-child(2){transform:rotate(-1.5deg)}
+.steps .card:nth-child(3){transform:rotate(1.2deg)}
+.steps h3{font-size:1.6rem;margin-bottom:.6rem;background:var(--red);display:inline-block;padding:.1em .3em;border:3px solid var(--ink)}
+@media(min-width:760px){.steps{grid-template-columns:repeat(3,1fr)}}
+
+/* beyond code + flip cards */
+.flips{display:grid;grid-template-columns:1fr;gap:1.6rem;margin-top:2rem}
+@media(min-width:560px){.flips{grid-template-columns:1fr 1fr}}
+@media(min-width:900px){.flips{grid-template-columns:repeat(4,1fr)}}
+.flip{perspective:900px;background:none;border:0;padding:0;font:inherit;color:inherit;text-align:left;cursor:pointer;height:13rem}
+.flip .in{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .6s var(--ease)}
+.flip[aria-pressed="true"] .in{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;border:var(--b);box-shadow:var(--sh);padding:1rem;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column;justify-content:space-between}
+.face.front{background:var(--red)}
+.flip:nth-child(2) .front{background:var(--blue)}
+.flip:nth-child(3) .front{background:var(--yellow)}
+.flip:nth-child(4) .front{background:var(--paper)}
+.face.back{background:var(--paper);transform:rotateY(180deg);font-weight:500}
+.face .disp{font-size:1.7rem}
+.face small{font-weight:700}
+.flip:nth-child(odd){transform:rotate(-1.2deg)}
+.flip:nth-child(even){transform:rotate(1.2deg)}
+.hobbies{max-width:40rem;font-size:1.15rem}
+
+/* contact */
+.contact{background:var(--red)}
+.links{display:grid;gap:1.1rem;max-width:26rem}
+.links .btn{background:var(--paper);text-align:left}
+footer{border-top:var(--b);padding:1.5rem 1.25rem;font-weight:700;background:var(--ink);color:var(--paper)}
+
+/* easter egg */
+.egg{position:fixed;z-index:40;font:clamp(1.6rem,8vw,3rem) 'Archivo Black';text-transform:uppercase;color:var(--red);border:6px solid var(--red);padding:.05em .2em;pointer-events:none;mix-blend-mode:multiply;animation:thump2 .3s var(--ease) both}
+@keyframes thump2{from{opacity:0;transform:scale(3) rotate(var(--r))}to{opacity:1;transform:scale(1) rotate(var(--r))}}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  #intro{display:none}
+  *{transition-duration:.01s!important;animation-duration:.01s!important}
+}
+</style>
+</head>
+<body>
+
+<div id="intro" aria-label="Opening animation">
+  <div class="stamp">Buvana</div>
+  <button id="skip" class="btn">Skip</button>
+</div>
+
+<main>
+<header class="hero" id="top">
+  <div class="wrap">
+    <div class="top">
+      <button class="mono" id="mono" aria-label="Buvana monogram">B</button>
+    </div>
+    <h1>Buvana</h1>
+    <p class="tag">[Your one-line tagline, in your own words]</p>
+    <p class="now">Currently: <b>[what you're learning or building right now]</b></p>
+    <div class="btns">
+      <a class="btn red" href="#about">Explore</a>
+      <a class="btn yellow" href="#contact">Say hi</a>
+    </div>
+  </div>
+</header>
+
+<section class="about" id="about">
+  <div class="wrap">
+    <h2><span>About</span></h2>
+    <div class="grid">
+      <div class="card">
+        <p>[Paragraph 1: who you are and where you're from. Write it in first person, the way you'd tell a new friend.]</p>
+        <p>[Paragraph 2: why you chose IT, and the moment you first got hooked on building things.]</p>
+        <p>[Paragraph 3: what you hope to make with it.]</p>
+      </div>
+      <div class="card side">First-year B.Tech IT.<br>[College name]</div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <h2><span>Skills</span></h2>
+    <div class="lv">
+      <div class="a">
+        <h3>Comfortable</h3>
+        <div class="chips"><span class="chip">[Skill]</span><span class="chip">[Skill]</span></div>
+      </div>
+      <div class="b">
+        <h3>Learning</h3>
+        <div class="chips"><span class="chip">[Skill]</span><span class="chip">[Skill]</span><span class="chip">[Skill]</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="journey" id="journey">
+  <div class="wrap">
+    <h2><span>Journey</span></h2>
+    <div class="steps">
+      <div class="card"><h3>Made</h3><p>[Something you've built or finished, even something small.]</p></div>
+      <div class="card"><h3>Learning</h3><p>[What you're studying or practising these days.]</p></div>
+      <div class="card"><h3>Next</h3><p>[What you want to build.]</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="beyond">
+  <div class="wrap">
+    <h2><span>Beyond code</span></h2>
+    <p class="hobbies">[A sentence or two about your hobbies, what you do when you're not at a screen.]</p>
+    <p style="margin-top:1rem;font-weight:700">Tap a card to flip it.</p>
+    <div class="flips">
+      <button class="flip" aria-pressed="false"><span class="in"><span class="face front"><span class="disp">Fun fact</span><small>Tap to flip</small></span><span class="face back">[Fun fact about you]</span></span></button>
+      <button class="flip" aria-pressed="false"><span class="in"><span class="face front"><span class="disp">Fun fact</span><small>Tap to flip</small></span><span class="face back">[Fun fact about you]</span></span></button>
+      <button class="flip" aria-pressed="false"><span class="in"><span class="face front"><span class="disp">Fun fact</span><small>Tap to flip</small></span><span class="face back">[Fun fact about you]</span></span></button>
+      <button class="flip" aria-pressed="false"><span class="in"><span class="face front"><span class="disp">Fun fact</span><small>Tap to flip</small></span><span class="face back">[Fun fact about you]</span></span></button>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="wrap">
+    <h2><span>Say hi</span></h2>
+    <div class="links">
+      <a class="btn" href="mailto:[your-email]">Email</a>
+      <a class="btn" href="[your LinkedIn URL]">LinkedIn</a>
+      <a class="btn" href="[your GitHub URL]">GitHub</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>Buvana. Built by hand, thumped by stamp.</footer>
+
+<script>
+(function(){
+  var intro=document.getElementById('intro');
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function close(){intro.classList.add('gone')}
+  if(reduce){close()}
+  else{
+    requestAnimationFrame(function(){intro.classList.add('go')});
+    intro.addEventListener('animationend',function(e){if(e.animationName==='wipe')close()});
+    document.getElementById('skip').addEventListener('click',close);
+  }
+
+  document.querySelectorAll('.flip').forEach(function(c){
+    c.addEventListener('click',function(){
+      c.setAttribute('aria-pressed',c.getAttribute('aria-pressed')==='true'?'false':'true');
+    });
+  });
+
+  /* Easter egg: tap the B monogram 5 times */
+  var n=0,m=document.getElementById('mono');
+  m.addEventListener('click',function(){
+    n++;
+    if(n>=5){
+      n=0;
+      for(var i=0;i<6;i++){
+        (function(i){setTimeout(function(){
+          var s=document.createElement('div');
+          s.className='egg';
+          s.textContent='Buvana was here';
+          s.style.left=(Math.random()*40)+'%';
+          s.style.top=(10+Math.random()*75)+'%';
+          s.style.setProperty('--r',(Math.random()*24-12)+'deg');
+          document.body.appendChild(s);
+          setTimeout(function(){s.remove()},2600);
+        },i*180)})(i);
+      }
+    }
+  });
+})();
+</script>
+</body>
+</html>
